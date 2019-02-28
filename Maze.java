@@ -4,6 +4,7 @@ public class Maze{
 
     private char[][]maze;
     private boolean animate;//false by default
+    private int Ecounter, Scounter;
 
     /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -29,19 +30,19 @@ public class Maze{
             x = info.nextLine().length(); // rows
             y ++; //colums
           }
+          Scounter = 0;
+          Ecounter = 0;
           maze = new char[y][x];
           info = new Scanner(data);
           int a = 0;
-          int Ecounter;
-          int Scounter;
           while (info.hasNextLine()) {
             String line = info.nextLine();
             for (int b = 0; b < x; b ++) {
               maze[a][b] = line.charAt(b);
-              if (line.charAt(b) == "S"){
+              if (line.charAt(b) == 'S'){
                 SCounter++;
               }
-              if (line.charAt(b) == "E"){
+              if (line.charAt(b) == 'E'){
                 ECounter++;
               }
             }
@@ -52,7 +53,7 @@ public class Maze{
           System.out.println("Please recheck file name to make sure it is correct.");
         }
         if (Scounter != 1 || Ecounter != 1){
-          throw IllegalStateException;
+          throw new IllegalStateException("The given file does not a start and exit point. Please make sure file only has one S, marking start, and one E, marking the exit.");
         }
 
     }
