@@ -23,6 +23,7 @@ public class Maze{
       System.out.println("File not found");
     }
     }
+
     /*Constructor loads a maze text file, and sets animate to false by default.
 
       1. The file contains a rectangular ascii maze, made with the following 4 characters:
@@ -38,7 +39,9 @@ public class Maze{
     */
     public Maze(String filename) throws FileNotFoundException{
         animate = false;
-        moves = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int countS = 0;
+        int countE = 0;
+        moves = new int[][] {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         try {
           File data = new File(filename);
           Scanner info = new Scanner(data);
@@ -48,8 +51,6 @@ public class Maze{
             x = info.nextLine().length(); // rows
             y ++; //colums
           }
-          Scounter = 0;
-          Ecounter = 0;
           maze = new char[y][x];
           info = new Scanner(data);
           int a = 0;
@@ -58,10 +59,10 @@ public class Maze{
             for (int b = 0; b < x; b ++) {
               maze[a][b] = line.charAt(b);
               if (line.charAt(b) == 'S'){
-                SCounter++;
+                countS++;
               }
               if (line.charAt(b) == 'E'){
-                ECounter++;
+                countE++;
               }
             }
             a ++;
@@ -70,7 +71,7 @@ public class Maze{
         catch (FileNotFoundException e) {
           System.out.println("Please recheck file name to make sure it is correct.");
         }
-        if (Scounter != 1 || Ecounter != 1){
+        if (countS != 1 || countE != 1){
           throw new IllegalStateException("The given file does not a start and exit point. Please make sure file only has one S, marking start, and one E, marking the exit.");
         }
 
@@ -100,7 +101,7 @@ public class Maze{
     public String toString(){
       String result = "";
       for (int row =0 ; row < maze.length; row++){
-        for (int col=0 ; row < row[0].length; col++){
+        for (int col=0 ; row < maze[0].length; col++){
           result += maze[row][col];
         }
         result += "\n";
@@ -114,13 +115,17 @@ public class Maze{
     */
     public int solve(){
       int total = 0;
+      int currentRow = 0;
+      int currentCol = 0;
       for (int row = 0 ; row < maze.length; row++){
-        for (int col = 0 ; row < row[0].length; col++){
+        for (int col = 0 ; row < maze[0].length; col++){
           if(maze[row][col] == 'S'){
-            int currentRow = row;
-            int currentCol = col;
+            currentRow = row;
+            currentCol = col;
             maze[currentRow][currentCol] = ' ';
           }
+        }
+      }
             //find the location of the S.
 
             //erase the S
@@ -155,21 +160,20 @@ public class Maze{
             System.out.println(this);
             wait(20);
         }
-
-        if (maze[row][col] == "E"){
+        if (maze[row][col] == 'E'){
           return 1;
         }
         else if (maze[row][col] == ' '){
           maze[row][col] = '@';
           count++;
           for (int i = 0; i < 4; i++){
-            newRow = row + moves[i][0];
-            newCol = col + moves[i][1];
+            int newRow = row + moves[i][0];
+            int newCol = col + moves[i][1];
             if (solve(newRow,newCol) != -1){
               return count;
             }
           }
-          maze[row][col] = "*"; // easier to see for me
+          maze[row][col] = '*'; // easier to see for me
           count--;
         }
 
