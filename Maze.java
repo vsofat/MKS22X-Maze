@@ -6,18 +6,19 @@ public class Maze{
     private boolean animate;//false by default
     private int Ecounter, Scounter;
     private int[][] moves;
+    private int count;
 
     public static void main(String[] args) throws FileNotFoundException{
       try{
       Maze one = new Maze("Maze1.txt");
       Maze two = new Maze("Maze2.txt");
       Maze three = new Maze("Maze3.txt");
-      System.out.println(one.solve());
-      System.out.println(one);
-      System.out.println(one.solve());
+      //System.out.println(one.solve());
+      //System.out.println(one);
+      System.out.println(two.solve());
       System.out.println(two);
-      System.out.println(one.solve());
-      System.out.println(three);
+      //System.out.println(three.solve());
+      //System.out.println(three);
     }
     catch (FileNotFoundException e){
       System.out.println("File not found");
@@ -114,30 +115,18 @@ public class Maze{
       Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
     */
     public int solve(){
-      int total = 0;
-      int currentRow = 0;
-      int currentCol = 0;
+      int colVal = 0;
+      int rowVal = 0;
       for (int row = 0 ; row < maze.length; row++){
         for (int col = 0 ; col < maze[0].length; col++){
           if(maze[row][col] == 'S'){
-            currentRow = row;
-            currentCol = col;
+            maze[row][col] = ' ';
+            rowVal = row;
+            colVal = col;
           }
         }
       }
-            //find the location of the S.
-
-            //erase the S
-            maze[currentRow][currentCol] = ' ';
-
-            //and start solving at the location of the s.
-            total += solve(currentRow,currentCol);
-
-            if (total == 0){
-              return -1;
-            }
-
-            return total;
+      return solve(rowVal,colVal);
     }
 
     /*
@@ -155,12 +144,11 @@ public class Maze{
     */
 
     private int solve(int row, int col){ //you can add more parameters since this is private
-        int count = 0;
         //automatic animation! You are welcome.
         if(animate){
             clearTerminal();
             System.out.println(this);
-            wait(20);
+            wait(140);
         }
         if (maze[row][col] == 'E'){
           return 1;
@@ -175,7 +163,7 @@ public class Maze{
               return count;
             }
           }
-          maze[row][col] = '*'; // easier to see for me
+          maze[row][col] = '.'; 
           count--;
         }
 
