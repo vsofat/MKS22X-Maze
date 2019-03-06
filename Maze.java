@@ -58,9 +58,6 @@ public class Maze{
 
     }
 
-
-
-
     private void wait(int millis){
          try {
              Thread.sleep(millis);
@@ -78,17 +75,19 @@ public class Maze{
         System.out.println("\033[2J\033[1;1H");
     }
 
-
-
-
-
    /*Return the string that represents the maze.
      It should look like the text file with some characters replaced.
     */
     public String toString(){
-            return "WRITE THIS METHOD";
+      String result = "";
+      for (char[] row : maze){
+        for (char col : row){
+          result += col;
+        }
+        result += "\n";
+      }
+      return "output";
     }
-
 
     /*Wrapper Solve Function returns the helper function
       Note the helper function has the same name, but different parameters.
