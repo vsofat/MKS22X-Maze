@@ -5,6 +5,7 @@ public class Maze{
     private char[][]maze;
     private boolean animate;//false by default
     private int Ecounter, Scounter;
+    private int[][] moves;
 
     /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -21,6 +22,7 @@ public class Maze{
     */
     public Maze(String filename) throws FileNotFoundException{
         animate = false;
+        moves = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         try {
           File data = new File(filename);
           Scanner info = new Scanner(data);
@@ -78,15 +80,16 @@ public class Maze{
    /*Return the string that represents the maze.
      It should look like the text file with some characters replaced.
     */
+
     public String toString(){
       String result = "";
-      for (char[] row : maze){
-        for (char col : row){
-          result += col;
+      for (int row =0 ; row < maze.length; row++){
+        for (int col=0 ; row < row[0].length; col++){
+          result += maze[row][col];
         }
         result += "\n";
       }
-      return "output";
+      return result;
     }
 
     /*Wrapper Solve Function returns the helper function
@@ -94,12 +97,24 @@ public class Maze{
       Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
     */
     public int solve(){
+      int total = 0;
+      for (int row = 0 ; row < maze.length; row++){
+        for (int col = 0 ; row < row[0].length; col++){
+          if(maze[row][col] == 'S'){
+            int currentRow = row;
+            int currentCol = col;
+            maze[currentRow][currentCol] = ' ';
+          }
             //find the location of the S.
 
             //erase the S
 
             //and start solving at the location of the s.
-            //return solve(???,???);
+            if (solve(currentRow,currentCol) == 0){
+              return -1;
+            }
+
+            return solve(currentRow,currentCol);
     }
 
     /*
@@ -115,7 +130,8 @@ public class Maze{
         All visited spots that were not part of the solution are changed to '.'
         All visited spots that are part of the solution are changed to '@'
     */
-    private int solve(int row, int col){ //you can add more parameters since this is private
+    
+    private void solve(int row, int col){ //you can add more parameters since this is private
 
         //automatic animation! You are welcome.
         if(animate){
@@ -123,6 +139,9 @@ public class Maze{
             System.out.println(this);
             wait(20);
         }
+
+
+
 
         //COMPLETE SOLVE
         return -1; //so it compiles
