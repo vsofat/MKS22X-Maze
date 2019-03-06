@@ -118,24 +118,26 @@ public class Maze{
       int currentRow = 0;
       int currentCol = 0;
       for (int row = 0 ; row < maze.length; row++){
-        for (int col = 0 ; row < maze[0].length; col++){
+        for (int col = 0 ; col < maze[0].length; col++){
           if(maze[row][col] == 'S'){
             currentRow = row;
             currentCol = col;
-            maze[currentRow][currentCol] = ' ';
           }
         }
       }
             //find the location of the S.
 
             //erase the S
+            maze[currentRow][currentCol] = ' ';
 
             //and start solving at the location of the s.
-            if (solve(currentRow,currentCol) == 0){
+            total += solve(currentRow,currentCol);
+
+            if (total == 0){
               return -1;
             }
 
-            return solve(currentRow,currentCol);
+            return total;
     }
 
     /*
