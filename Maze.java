@@ -7,6 +7,22 @@ public class Maze{
     private int Ecounter, Scounter;
     private int[][] moves;
 
+    public static void main(String[] args) throws FileNotFoundException{
+      try{
+      Maze one = new Maze("Maze1.txt");
+      Maze two = new Maze("Maze2.txt");
+      Maze three = new Maze("Maze3.txt");
+      System.out.println(one.solve());
+      System.out.println(one);
+      System.out.println(one.solve());
+      System.out.println(two);
+      System.out.println(one.solve());
+      System.out.println(three);
+    }
+    catch (FileNotFoundException e){
+      System.out.println("File not found");
+    }
+    }
     /*Constructor loads a maze text file, and sets animate to false by default.
 
       1. The file contains a rectangular ascii maze, made with the following 4 characters:
@@ -130,9 +146,9 @@ public class Maze{
         All visited spots that were not part of the solution are changed to '.'
         All visited spots that are part of the solution are changed to '@'
     */
-    
-    private void solve(int row, int col){ //you can add more parameters since this is private
 
+    private int solve(int row, int col){ //you can add more parameters since this is private
+        int count = 0;
         //automatic animation! You are welcome.
         if(animate){
             clearTerminal();
@@ -140,8 +156,22 @@ public class Maze{
             wait(20);
         }
 
-
-
+        if (maze[row][col] == "E"){
+          return 1;
+        }
+        else if (maze[row][col] == ' '){
+          maze[row][col] = '@';
+          count++;
+          for (int i = 0; i < 4; i++){
+            newRow = row + moves[i][0];
+            newCol = col + moves[i][1];
+            if (solve(newRow,newCol) != -1){
+              return count;
+            }
+          }
+          maze[row][col] = "*"; // easier to see for me
+          count--;
+        }
 
         //COMPLETE SOLVE
         return -1; //so it compiles
