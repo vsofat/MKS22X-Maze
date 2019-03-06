@@ -101,7 +101,7 @@ public class Maze{
     public String toString(){
       String result = "";
       for (int row =0 ; row < maze.length; row++){
-        for (int col=0 ; row < maze[0].length; col++){
+        for (int col=0 ; col < maze[0].length; col++){
           result += maze[row][col];
         }
         result += "\n";
